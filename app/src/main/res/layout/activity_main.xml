@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.zyl.recycle.demo.MainActivity">
+
+  <TextView
+      android:id="@+id/item_normal"
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="normal activity"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+  <TextView
+      android:id="@+id/item_header_footer"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="header foot activity"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+  <TextView
+      android:id="@+id/item_refresh"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="refresh activity"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+  <TextView
+      android:id="@+id/item_refresh_more"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="refresh load more activity"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+
+  <TextView
+      android:id="@+id/item_rollpage_header"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="rollpage header activity"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+
+  <TextView
+      android:id="@+id/item_my_recycleview"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="my_recycleview"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+</LinearLayout>
