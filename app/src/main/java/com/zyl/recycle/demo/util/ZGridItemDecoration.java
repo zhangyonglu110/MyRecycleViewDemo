@@ -37,15 +37,14 @@ import android.widget.LinearLayout;
 import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
 
 
-public class ZItemDecoration extends RecyclerView.ItemDecoration {
+public class ZGridItemDecoration extends RecyclerView.ItemDecoration {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
 
     private static final String TAG = "DividerItem";
-    private static final int[] ATTRS = new int[]{ android.R.attr.listDivider };
-
-    private Drawable mDivider,mDivider2;
-    private int mheight,mcolor;
+    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+    private Drawable mDivider, mDivider2;
+    private int mheight, mcolor;
 
     /**
      * Current orientation. Either {@link #HORIZONTAL} or {@link #VERTICAL}.
@@ -57,15 +56,14 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Creates a divider {@link RecyclerView.ItemDecoration} that can be used with a
      *
-     *
-     * @param context Current context, it will be used to access resources.
+     * @param context     Current context, it will be used to access resources.
      * @param orientation Divider orientation. Should be {@link #HORIZONTAL} or {@link #VERTICAL}.
      */
-    public ZItemDecoration(Context context, int orientation) {
+    public ZGridItemDecoration(Context context, int orientation) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
 
         mDivider = a.getDrawable(0);
-        mDivider.setColorFilter(new LightingColorFilter(0xFFFFFFFF,0xFFAA0000));
+        mDivider.setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
         if (mDivider == null) {
             Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this "
                     + "DividerItemDecoration. Please set that attribute all call setDrawable()");
@@ -73,9 +71,10 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
         a.recycle();
         setOrientation(orientation);
     }
-    public ZItemDecoration(Context context, int orientation,int height) {
+
+    public ZGridItemDecoration(Context context, int orientation, int height) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        this.mheight=height;
+        this.mheight = height;
 
         mDivider = a.getDrawable(0);
         if (mDivider == null) {
@@ -85,14 +84,15 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
         a.recycle();
         setOrientation(orientation);
     }
-    public ZItemDecoration(Context context, int orientation,int height,int color) {
+
+    public ZGridItemDecoration(Context context, int orientation, int height, int color) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        this.mheight=height;
-        this.mcolor=color;
-        ColorDrawable colorDrawable=new ColorDrawable(color);
-        ColorDrawable colorDrawable2=new ColorDrawable(Color.RED);
-        mDivider=colorDrawable;
-        mDivider2=colorDrawable2;
+        this.mheight = height;
+        this.mcolor = color;
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        ColorDrawable colorDrawable2 = new ColorDrawable(Color.RED);
+        mDivider = colorDrawable;
+        mDivider2 = colorDrawable2;
         if (mDivider == null) {
             Log.w(TAG, "@android:attr/listDivider was not set in the theme used for this "
                     + "DividerItemDecoration. Please set that attribute all call setDrawable()");
@@ -100,6 +100,7 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
         a.recycle();
         setOrientation(orientation);
     }
+
     /**
      * Sets the orientation for this divider. This should be called if
      * {@link RecyclerView.LayoutManager} changes orientation.
@@ -135,46 +136,71 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
         }
         if (mOrientation == VERTICAL) {
 
-                drawVertical(c, parent);
-
+            drawGridLayoutVertical(c, parent);
 
         } else {
             drawHorizontal(c, parent);
         }
     }
 
-    private void drawVertical(Canvas canvas, RecyclerView parent) {
+
+    private void drawGridLayoutVertical(Canvas canvas, RecyclerView parent) {
         canvas.save();
         final int left;
         final int right;
         if (parent.getClipToPadding()) {
             left = parent.getPaddingLeft();
             right = parent.getWidth() - parent.getPaddingRight();
-            Log.i("zzz","left------->"+left+"|right--------------->"+right);
             canvas.clipRect(left, parent.getPaddingTop(), right,
                     parent.getHeight() - parent.getPaddingBottom());
         } else {
             left = 0;
             right = parent.getWidth();
         }
-
+        int spancounbt = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
         final int childCount = parent.getChildCount();
-        Log.i("zzz","child count--------->"+childCount);
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-            parent.getDecoratedBoundsWithMargins(child, mBounds);
-            final int bottom = mBounds.bottom + Math.round(child.getTranslationY());//四舍五入 计算的是该View在Y轴的偏移量。初始值为0，向上偏移为负，向下偏移为证。
-//            final int top = bottom - mDivider.getIntrinsicHeight();
-            final int top = bottom - mheight;
-            Log.i("zzz","top------->"+top+"|bottom--------------->"+bottom);
-            mDivider2.setBounds(540,0,20+540,100);
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(canvas);
-            mDivider2.draw(canvas);
-        }
-        canvas.restore();
-    }
+            int childviewtype = parent.getAdapter().getItemViewType(i);
+            Log.i("zzz", "child view type-------->" + childviewtype);
 
+
+                /**
+                 * 画横线
+                 */
+                Log.i("zzz", "child params-------->" + child.getWidth() + "------" + child.getHeight());
+                Log.i("zzz", "left" + child.getLeft() + "------right" + child.getRight() + "-------top" + child.getTop() + "-------bottom" + child.getBottom() + "-----spancount" + spancounbt);
+//            parent.getDecoratedBoundsWithMargins(child, mBounds);
+//            final int bottom = mBounds.bottom + Math.round(child.getTranslationY());//四舍五入 计算的是该View在Y轴的偏移量。初始值为0，向上偏移为负，向下偏移为证。
+////            final int top = bottom - mDivider.getIntrinsicHeight();
+//            final int top = bottom - mheight;
+               if(childviewtype!=3) {
+                   int transverse_line_left = child.getLeft();
+                   int transverse_line_top = child.getBottom();
+                   int transverse_line_right = child.getRight();
+                   int transverse_line_bottom = child.getBottom() + mheight;
+                   Log.i("zzz", i + "--------->l------->" + transverse_line_left + "-----" + "t------->" + transverse_line_top + "-----" + "r------->" + transverse_line_right + "-----" + "b------->" + transverse_line_bottom);
+                   mDivider.setBounds(transverse_line_left, transverse_line_top, transverse_line_right, transverse_line_bottom);
+                   mDivider.draw(canvas);
+
+                   /**
+                    * 画竖线
+                    */
+
+                   int vertical_line_left = child.getLeft() - mheight / 2;
+                   int vertical_line_right = child.getLeft() + mheight / 2;
+                   int vertical_line_top = child.getTop();
+                   int vertical_line_bottom = child.getBottom();
+                   if (i%spancounbt!=0) {
+                       mDivider.setBounds(vertical_line_left, vertical_line_top, vertical_line_right, vertical_line_bottom);
+                       mDivider.draw(canvas);
+                   }
+
+               }
+
+            canvas.restore();
+        }
+    }
 
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
 
@@ -186,7 +212,7 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
             top = parent.getPaddingTop();
             bottom = parent.getHeight() - parent.getPaddingBottom();
 
-            Log.i("zzz","top------->"+top+"|bottom--------------->"+bottom);
+            Log.i("zzz", "top------->" + top + "|bottom--------------->" + bottom);
             canvas.clipRect(parent.getPaddingLeft(), top,
                     parent.getWidth() - parent.getPaddingRight(), bottom);
         } else {
@@ -216,31 +242,14 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
             return;
         }
         if (mOrientation == VERTICAL) {
-//            int visillblechidldcount=parent.getLayoutManager().getChildCount();
-//            int totalcount=parent.getAdapter().getItemCount();
-//            int childIndex=parent.getChildAdapterPosition(view);
-////            Log.i("zzz","spanct count--------->"+getSpanCount(parent));
-////            Log.i("zzz","total item  --------->"+parent.getAdapter().getItemCount());
-////            Log.i("zzz","item count index---------->"+parent.getChildPosition(view));
-//            Log.i("zzz","visible---------->"+visillblechidldcount+"------index------>"+childIndex+"---------total------->"+totalcount);
-//
-//           // if(parent.getAdapter().getItemViewType(parent.getChildLayoutPosition(view))==BaseRecycleAdapter.ITEM_FOOTER)mheight=0;
-
-            int childAdapterPosition = parent.getChildAdapterPosition(view);//获取item 位置
-
-            int lastCount = parent.getAdapter().getItemCount() - 1;//获取最后一条item 位置
-
-            if(parent.getLayoutManager() instanceof LinearLayoutManager){
-                //如果当前条目与是最后一个条目，就不设置divider padding
-                if (childAdapterPosition == lastCount) {
-                    outRect.set(0, 0, 0, 0);
-                    return;
-                }
+            int itemviewtype=parent.getAdapter().getItemViewType(parent.getChildLayoutPosition(view));
+            Log.i("iii","item view   type----------->"+itemviewtype);
+            if(itemviewtype==3){
+                outRect.set(0, 0, 0,0);
+                return;
 
             }
-
-            outRect.set(0, 0, 0,mheight);
-
+            outRect.set(0, 0, 0, mheight);
 
 
         } else {
@@ -250,29 +259,27 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
     }
 
 
+    public int getSpanCount(RecyclerView recyclerView) {
+        int spancount = -1;
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            spancount = ((GridLayoutManager) layoutManager).getSpanCount();
 
-    public int getSpanCount(RecyclerView recyclerView){
-        int spancount=-1;
-        RecyclerView.LayoutManager layoutManager=recyclerView.getLayoutManager();
-        if(layoutManager instanceof GridLayoutManager){
-            spancount=((GridLayoutManager)layoutManager).getSpanCount();
-
-        }else if(layoutManager instanceof StaggeredGridLayoutManager){
-            spancount=((StaggeredGridLayoutManager)layoutManager).getSpanCount();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            spancount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
         }
 
         return spancount;
 
     }
 
-    public boolean isLastRow(RecyclerView parent,int itempos,int chidcount,int spancount){
-        RecyclerView.LayoutManager layoutManager=parent.getLayoutManager();
-        if(layoutManager instanceof GridLayoutManager){
+    public boolean isLastRow(RecyclerView parent, int itempos, int chidcount, int spancount) {
+        RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
 
-        }else if(layoutManager instanceof StaggeredGridLayoutManager){
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
 
-        }
-        else{
+        } else {
 
         }
         return true;

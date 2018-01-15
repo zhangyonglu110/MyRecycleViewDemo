@@ -20,6 +20,7 @@ import com.zyl.recycle.demo.ui.adapter.HeaderFooterAdapter;
 import com.zyl.recycle.demo.ui.adapter.ReallAdapter;
 import com.zyl.recycle.demo.util.DensityUtil;
 import com.zyl.recycle.demo.util.OkHttpUtils;
+import com.zyl.recycle.demo.util.ZGridItemDecoration;
 import com.zyl.recycle.demo.util.ZItemDecoration;
 import com.zyl.recycle.demo.widget.ZRecycleView;
 
@@ -53,7 +54,7 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
         setContentView(zRecycleView);
         zRecycleView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         zRecycleView.setLayoutManager(gridLayoutManager=new GridLayoutManager(this,3));
-        ZItemDecoration zItemDecoration=new ZItemDecoration(this,LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this,1),getResources().getColor(R.color.colorAccent));
+        ZGridItemDecoration zItemDecoration=new ZGridItemDecoration(this,LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this,1),getResources().getColor(R.color.colorAccent));
         zRecycleView.setZItemDecoration(zItemDecoration);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -153,6 +154,7 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
 
 
                     } else {
+                        Log.i("rrr","adapter count ------>"+reallAdapter.getItemCount());
                         reallAdapter.isShowFooter(false);
                     }
 
