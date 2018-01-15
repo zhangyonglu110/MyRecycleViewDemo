@@ -1,17 +1,23 @@
 package com.zyl.recycle.demo.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import java.util.logging.Handler;
+import com.zyl.recycle.demo.R;
+import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
+import com.zyl.recycle.demo.util.DensityUtil;
+import com.zyl.recycle.demo.util.ZItemDecoration;
+
 
 /**
  * Created by Administrator on 2018/1/4.
@@ -22,8 +28,11 @@ public class ZRecycleView extends LinearLayout {
    private SwipeRefreshLayout swipeRefreshLayout;
    private RecyclerView recyclerView;
    private RecyclerView.LayoutManager layoutManager;
-   private boolean isloading=false;
+   private boolean isloading=false,canload=true,isfresh=false;
    private LoadMoreListener mloadMoreListener;
+   private BaseRecycleAdapter baseRecycleAdapter;
+   private OnZfreshListener monZfreshListener;
+
 
     public ZRecycleView(Context context) {
         super(context);
@@ -34,8 +43,12 @@ public class ZRecycleView extends LinearLayout {
     private void init() {
         setOrientation(VERTICAL);
         swipeRefreshLayout=new SwipeRefreshLayout(mcontext);
-        swipeRefreshLayout.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams params=new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+         //swipeRefreshLayout.setPadding(20,0,20,0);
+        swipeRefreshLayout.setLayoutParams(params);
         recyclerView=new RecyclerView(mcontext);
+
+
         recyclerView.setLayoutParams(new LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
         swipeRefreshLayout.addView(recyclerView);
         addView(swipeRefreshLayout);
@@ -60,7 +73,7 @@ public class ZRecycleView extends LinearLayout {
 
                 }
 
-                if(itemcount==(lastposition+1)&&!isloading){
+                if(itemcount<=(lastposition+1)&&!isloading&&canload&&!isfresh){
                      new android.os.Handler().post(new Runnable() {
                          @Override
                          public void run() {
@@ -71,14 +84,22 @@ public class ZRecycleView extends LinearLayout {
                          }
                      });
 
-
-                       Log.i("ooo","isloading-------------->"+isloading);
                 }
                 super.onScrolled(recyclerView, dx, dy);
 
             }
         });
-
+     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+         @Override
+         public void onRefresh() {
+             if(monZfreshListener!=null&&!isloading) {
+                 isfresh=true;
+                 monZfreshListener.refresh();
+             }
+             isfresh=false;
+             swipeRefreshLayout.setRefreshing(false);
+         }
+     });
     }
 
     public ZRecycleView(Context context, @Nullable AttributeSet attrs) {
@@ -99,7 +120,8 @@ public class ZRecycleView extends LinearLayout {
         this.layoutManager=layoutManager;
         recyclerView.setLayoutManager(layoutManager);
     }
-    public void setAdapter(RecyclerView.Adapter adapter){
+    public void setAdapter(BaseRecycleAdapter adapter){
+        this.baseRecycleAdapter=adapter;
         recyclerView.setAdapter(adapter);
 
     }
@@ -131,5 +153,32 @@ public class ZRecycleView extends LinearLayout {
         swipeRefreshLayout.setRefreshing(true);
     }
 
+  public void setcanrefresh(boolean canrefresh){
+        this.canload=canrefresh;
 
+  }
+
+  public void stopLoadMore(){
+      if(baseRecycleAdapter!=null&&baseRecycleAdapter.getFooterview()!=null) baseRecycleAdapter.isShowFooter(true);
+      canload=false;
+  }
+
+  public void startLoadMore(){
+      if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(false);
+      canload=true;
+
+  }
+  public void setRefreshListener(OnZfreshListener onZfreshListener){
+      this.monZfreshListener=onZfreshListener;
+
+  }
+
+ public interface OnZfreshListener{
+      void refresh();
+  }
+
+
+  public void setZItemDecoration(RecyclerView.ItemDecoration itemDecoration){
+      recyclerView.addItemDecoration(itemDecoration);
+  }
 }

@@ -57,4 +57,23 @@
       android:text="my_recycleview"
       android:layout_width="match_parent"
       android:layout_height="35dp" />
+
+  <TextView
+      android:id="@+id/item_grid_layout"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="grid layoutManager"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
+
+
+  <TextView
+      android:id="@+id/item_example"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="example demo"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
 </LinearLayout>

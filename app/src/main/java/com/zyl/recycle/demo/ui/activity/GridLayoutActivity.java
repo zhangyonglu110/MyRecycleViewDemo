@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,11 +25,12 @@ import java.util.List;
  * Created by Administrator on 2018/1/5.
  */
 
-public class MyRecycleViewActivity extends Activity {
+public class GridLayoutActivity extends Activity {
     private List<String> datalist=new ArrayList<>();
     private List<String> testlist=new ArrayList<>();
     private TestAdapter headerFooterAdapter;
     private int page=1;
+    private GridLayoutManager gridLayoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,25 +38,37 @@ public class MyRecycleViewActivity extends Activity {
         setContentView(zRecycleView);
         initdata();
         zRecycleView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.WRAP_CONTENT));
-        zRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        gridLayoutManager=new GridLayoutManager(this,2);
+
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(headerFooterAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_HEADER||headerFooterAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_FOOTER){
+                    return gridLayoutManager.getSpanCount();
+                }
+                return 1;
+            }
+        });
+        zRecycleView.setLayoutManager(gridLayoutManager);
+
         zRecycleView.setSchemeColors(R.color.colorAccent);
         headerFooterAdapter=new TestAdapter(this,datalist,R.layout.layout_test_item);
         headerFooterAdapter.addFooter(LayoutInflater.from(this).inflate(R.layout.layout_recycle_footer,null));
         zRecycleView.setAdapter(headerFooterAdapter);
-        zRecycleView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        zRecycleView.setRefreshListener(new ZRecycleView.OnZfreshListener() {
             @Override
-            public void onRefresh() {
+            public void refresh() {
                 zRecycleView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        headerFooterAdapter.clear();
-                        zRecycleView.stopRefresh();
-                       // headerFooterAdapter.startLoadMore();
                         page=0;
-                        datalist.clear();
-                        headerFooterAdapter.addAll(datalist);
+                        zRecycleView.startLoadMore();
+                         testlist.clear();
+                         inittestdata();
+                        headerFooterAdapter.addAll(testlist);
                     }
                 },3000);
+                Log.i("ggg","page------->"+page+"-------"+headerFooterAdapter.getFooterview());
 
             }
         });
@@ -68,7 +82,6 @@ public class MyRecycleViewActivity extends Activity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(headerFooterAdapter.getFooterview()==null)  headerFooterAdapter.startLoadMore();
 
                             page++;
                             if(page<=4){
@@ -81,7 +94,7 @@ public class MyRecycleViewActivity extends Activity {
                                 zRecycleView.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        headerFooterAdapter.stopLoadMore();
+                                        zRecycleView.stopLoadMore();
 
                                     }
                                 });
@@ -97,7 +110,7 @@ public class MyRecycleViewActivity extends Activity {
         headerFooterAdapter.setOnItemClickListener(new BaseRecycleAdapter.OnZRecycleViewItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(MyRecycleViewActivity.this,position+"",Toast.LENGTH_SHORT).show();
+                Toast.makeText(GridLayoutActivity.this,position+"",Toast.LENGTH_SHORT).show();
 
             }
         });

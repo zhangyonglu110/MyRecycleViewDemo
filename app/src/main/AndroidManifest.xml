@@ -22,6 +22,8 @@
         <activity android:name=".ui.activity.RefreshMoreNormalActivity"/>
         <activity android:name=".ui.activity.RollPagerHeaderActivity"/>
         <activity android:name=".ui.activity.MyRecycleViewActivity"/>
+        <activity android:name=".ui.activity.GridLayoutActivity"/>
+        <activity android:name=".ui.activity.RellyListActivity"/>
     </application>
-
+<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

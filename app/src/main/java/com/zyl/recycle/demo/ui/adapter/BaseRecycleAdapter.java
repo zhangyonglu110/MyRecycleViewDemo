@@ -1,16 +1,13 @@
 package com.zyl.recycle.demo.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zyl.recycle.demo.ui.adapter.viewholder.NormalHolder;
+import com.zyl.recycle.demo.ui.adapter.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -18,38 +15,57 @@ import java.util.List;
  * Created by Administrator on 2017/12/22.
  */
 
-public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private List<String> dataList;
-    private Context mcontext;
-    private View headerview,footerview;
+public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    protected List<T> dataList;
+    protected Context mcontext;
+    protected View headerview,footerview;
     public final static int ITEM_TYPE=0X01;
     public final static int ITEM_HEADER=0X02;
     public final static int ITEM_FOOTER=0X03;
-    private OnLoadMoreListener monLoadMoreListener;
-    private boolean canloadMore=true;
-    private View cachFooterView;
-    private OnZRecycleViewItemClickListener monZRecycleViewItemClickListener;
+    protected OnLoadMoreListener monLoadMoreListener;
+    protected boolean canloadMore=true,misshowfooter=false;
+    protected View cachFooterView;
+    protected OnZRecycleViewItemClickListener monZRecycleViewItemClickListener;
+    protected int mlayoutid;
+    protected View mitenview;
 
-    public HeaderFooterAdapter(Context context){
+    public BaseRecycleAdapter(Context context){
         this.mcontext=context;
 
     }
-    public HeaderFooterAdapter(Context context, List<String> list){
+    public BaseRecycleAdapter(Context context, List<T> list){
         this.mcontext=context;
         this.dataList=list;
+
+    }
+    public BaseRecycleAdapter(Context context, List<T> list,int layoutid){
+        this.mcontext=context;
+        this.dataList=list;
+        this.mlayoutid=layoutid;
+
+    }
+    public BaseRecycleAdapter(Context context, List<T> list,View itemview){
+        this.mcontext=context;
+        this.dataList=list;
+        this.mitenview=itemview;
 
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ITEM_TYPE:
-                TextView textView = new TextView(mcontext);
-                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80));
-                textView.setTextColor(Color.BLACK);
-                textView.setGravity(Gravity.CENTER);
-                textView.setTextSize(15);
+//                TextView textView = new TextView(mcontext);
+//                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80));
+//                textView.setTextColor(Color.BLACK);
+//                textView.setGravity(Gravity.CENTER);
+//                textView.setTextSize(15);
+                if(mitenview!=null) {
+                    return getViewHolder(mitenview);
+                }
+                if(mlayoutid!=0){
+                    return getViewHolder(LayoutInflater.from(mcontext).inflate(mlayoutid,null));
 
-                return new NormalHolder(textView);
+                }
             case ITEM_HEADER:
                 return new HeaderHolder(headerview);
             case ITEM_FOOTER:
@@ -67,8 +83,8 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Log.i("sss",getItemCount()+""+"position------------>"+position);
-        if(holder instanceof NormalHolder){
-            NormalHolder normalHolder= (NormalHolder) holder;
+        if(holder instanceof BaseViewHolder){
+            BaseViewHolder<T> normalHolder= (BaseViewHolder<T>) holder;
             if(headerview!=null&&footerview!=null){
                 if(position!=0&&position!=getItemCount()-1) {
                     Log.i("sss","pos------------->"+position);
@@ -97,6 +113,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }else if(holder instanceof HeaderHolder){
 
+
         }else if(holder instanceof FooterHolder){
           //  if(monLoadMoreListener!=null) monLoadMoreListener.loadMore();
 
@@ -109,13 +126,13 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         int itemcount=0;
-         if(headerview!=null&&footerview!=null){
+         if(headerview!=null&&footerview!=null&&misshowfooter){
              itemcount=2;
          }
          if(headerview!=null&&footerview==null){
              itemcount=1;
          }
-        if(headerview==null&&footerview!=null){
+        if(headerview==null&&footerview!=null&&misshowfooter){
             itemcount=1;
         }
         return dataList.size()+itemcount;
@@ -124,6 +141,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+        Log.i("ppp","is showfooted--------->"+misshowfooter);
         if(headerview!=null&&footerview==null) {
             if (position == 0) {
                 return ITEM_HEADER;
@@ -131,7 +149,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         if(headerview==null&&footerview!=null){
-               if(position==getItemCount()-1){
+               if(position==getItemCount()-1&&misshowfooter){
                    return ITEM_FOOTER;
                }
         }
@@ -139,7 +157,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(headerview!=null && footerview!=null){
             if (position == 0) {
                 return ITEM_HEADER;
-            }else if(position==getItemCount()-1){
+            }else if(position==getItemCount()-1&&misshowfooter){
 
                     return ITEM_FOOTER;
                 }
@@ -176,13 +194,13 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-  class HeaderHolder extends RecyclerView.ViewHolder{
+ public class HeaderHolder<T> extends RecyclerView.ViewHolder{
 
       public HeaderHolder(View itemView) {
           super(itemView);
       }
   }
-    class FooterHolder extends RecyclerView.ViewHolder{
+ public    class FooterHolder<T> extends RecyclerView.ViewHolder{
 
         public FooterHolder(View itemView) {
 
@@ -199,7 +217,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
-    public void addAll(List<String> list){
+    public void addAll(List<T> list){
          int startpos=getItemCount()-1;
         this.dataList.addAll(list);
        notifyDataSetChanged();
@@ -239,6 +257,15 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setOnItemClickListener(OnZRecycleViewItemClickListener onItemClickListener){
         this.monZRecycleViewItemClickListener=onItemClickListener;
+
+    }
+
+    public abstract BaseViewHolder<T> getViewHolder(View itemview);
+
+
+    public void isShowFooter(boolean isshowfooter){
+        this.misshowfooter=isshowfooter;
+        notifyDataSetChanged();
 
     }
 }
