@@ -1,4 +1,4 @@
-package com.zyl.recycle.demo.ui.adapter;
+package com.zyl.myview.zrecycleview.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zyl.recycle.demo.ui.adapter.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -38,13 +37,13 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
         this.dataList=list;
 
     }
-    public BaseRecycleAdapter(Context context, List<T> list,int layoutid){
+    public BaseRecycleAdapter(Context context, List<T> list, int layoutid){
         this.mcontext=context;
         this.dataList=list;
         this.mlayoutid=layoutid;
 
     }
-    public BaseRecycleAdapter(Context context, List<T> list,View itemview){
+    public BaseRecycleAdapter(Context context, List<T> list, View itemview){
         this.mcontext=context;
         this.dataList=list;
         this.mitenview=itemview;

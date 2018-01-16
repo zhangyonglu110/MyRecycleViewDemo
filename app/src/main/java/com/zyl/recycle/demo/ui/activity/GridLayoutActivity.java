@@ -4,19 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
+import com.zyl.myview.zrecycleview.widget.ZRecycleView;
 import com.zyl.recycle.demo.R;
-import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
 import com.zyl.recycle.demo.ui.adapter.HeaderFooterAdapter;
 import com.zyl.recycle.demo.ui.adapter.TestAdapter;
-import com.zyl.recycle.demo.widget.ZRecycleView;
 
 import java.util.ArrayList;
 import java.util.List;

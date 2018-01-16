@@ -3,6 +3,7 @@ package com.zyl.recycle.demo.ui.adapter.viewholder;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zyl.myview.zrecycleview.base.BaseViewHolder;
 import com.zyl.recycle.demo.R;
 
 /**

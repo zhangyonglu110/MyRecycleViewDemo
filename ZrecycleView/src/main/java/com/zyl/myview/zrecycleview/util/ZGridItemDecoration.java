@@ -15,7 +15,7 @@
  */
 
 
-package com.zyl.recycle.demo.util;
+package com.zyl.myview.zrecycleview.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,14 +27,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
 
 
 public class ZGridItemDecoration extends RecyclerView.ItemDecoration {

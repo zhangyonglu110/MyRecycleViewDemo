@@ -1,4 +1,4 @@
-package com.zyl.recycle.demo.util;
+package com.zyl.myview.zrecycleview.util;
 
 import android.content.Context;
 

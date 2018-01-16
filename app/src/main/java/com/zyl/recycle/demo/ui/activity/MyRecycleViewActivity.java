@@ -11,11 +11,10 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
+import com.zyl.myview.zrecycleview.widget.ZRecycleView;
 import com.zyl.recycle.demo.R;
-import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
-import com.zyl.recycle.demo.ui.adapter.HeaderFooterAdapter;
 import com.zyl.recycle.demo.ui.adapter.TestAdapter;
-import com.zyl.recycle.demo.widget.ZRecycleView;
 
 import java.util.ArrayList;
 import java.util.List;

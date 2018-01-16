@@ -1,8 +1,7 @@
-package com.zyl.recycle.demo.ui.adapter.viewholder;
+package com.zyl.myview.zrecycleview.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 

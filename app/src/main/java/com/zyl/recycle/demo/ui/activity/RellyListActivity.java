@@ -14,15 +14,13 @@ import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zyl.myview.zrecycleview.util.DensityUtil;
+import com.zyl.myview.zrecycleview.util.ZItemDecoration;
+import com.zyl.myview.zrecycleview.widget.ZRecycleView;
 import com.zyl.recycle.demo.R;
 import com.zyl.recycle.demo.model.AgTechnologInfor;
-import com.zyl.recycle.demo.ui.adapter.HeaderFooterAdapter;
 import com.zyl.recycle.demo.ui.adapter.ReallAdapter;
-import com.zyl.recycle.demo.util.DensityUtil;
 import com.zyl.recycle.demo.util.OkHttpUtils;
-import com.zyl.recycle.demo.util.ZGridItemDecoration;
-import com.zyl.recycle.demo.util.ZItemDecoration;
-import com.zyl.recycle.demo.widget.ZRecycleView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,19 +50,21 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
         super.onCreate(savedInstanceState);
         zRecycleView = new ZRecycleView(this);
         setContentView(zRecycleView);
+        zRecycleView.setLayoutManager(new LinearLayoutManager(this));
         zRecycleView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
-        zRecycleView.setLayoutManager(gridLayoutManager=new GridLayoutManager(this,3));
-        ZGridItemDecoration zItemDecoration=new ZGridItemDecoration(this,LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this,1),getResources().getColor(R.color.colorAccent));
-        zRecycleView.setZItemDecoration(zItemDecoration);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                if(reallAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_HEADER||reallAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_FOOTER){
-                    return gridLayoutManager.getSpanCount();
-                }
-                return 1;
-            }
-        });
+//        zRecycleView.setLayoutManager(gridLayoutManager=new GridLayoutManager(this,5));
+        ZItemDecoration zItemDecoration=new ZItemDecoration(this,LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this,1),getResources().getColor(R.color.colorAccent));
+       zRecycleView.setZItemDecoration(zItemDecoration);
+       // zRecycleView.setZItemAnimator(new DefaultItemAnimator());
+//        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                if(reallAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_HEADER||reallAdapter.getItemViewType(position)== HeaderFooterAdapter.ITEM_FOOTER){
+//                    return gridLayoutManager.getSpanCount();
+//                }
+//                return 1;
+//            }
+//        });
 
         zRecycleView.setSchemeColors(R.color.colorAccent);
         zRecycleView.setRefreshListener(this);

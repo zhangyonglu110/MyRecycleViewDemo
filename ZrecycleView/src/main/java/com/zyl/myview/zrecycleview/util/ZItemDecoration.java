@@ -15,7 +15,7 @@
  */
 
 
-package com.zyl.recycle.demo.util;
+package com.zyl.myview.zrecycleview.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -33,8 +33,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
 
 
 public class ZItemDecoration extends RecyclerView.ItemDecoration {
@@ -167,10 +165,8 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
 //            final int top = bottom - mDivider.getIntrinsicHeight();
             final int top = bottom - mheight;
             Log.i("zzz","top------->"+top+"|bottom--------------->"+bottom);
-            mDivider2.setBounds(540,0,20+540,100);
             mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(canvas);
-            mDivider2.draw(canvas);
         }
         canvas.restore();
     }
@@ -200,8 +196,6 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
             parent.getLayoutManager().getDecoratedBoundsWithMargins(child, mBounds);
             final int right = mBounds.right + Math.round(child.getTranslationX());
             final int left = right - mheight;
-
-
             mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(canvas);
         }
@@ -229,13 +223,14 @@ public class ZItemDecoration extends RecyclerView.ItemDecoration {
             int childAdapterPosition = parent.getChildAdapterPosition(view);//获取item 位置
 
             int lastCount = parent.getAdapter().getItemCount() - 1;//获取最后一条item 位置
-
+            int childItemType=parent.getAdapter().getItemViewType(childAdapterPosition);
             if(parent.getLayoutManager() instanceof LinearLayoutManager){
-                //如果当前条目与是最后一个条目，就不设置divider padding
-                if (childAdapterPosition == lastCount) {
-                    outRect.set(0, 0, 0, 0);
-                    return;
-                }
+
+                    if (childAdapterPosition == lastCount) {
+                        outRect.set(0, 0, 0, 0);
+                        return;
+                    }
+
 
             }
 

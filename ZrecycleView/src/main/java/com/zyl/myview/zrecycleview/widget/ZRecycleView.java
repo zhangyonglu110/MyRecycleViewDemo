@@ -1,22 +1,15 @@
-package com.zyl.recycle.demo.widget;
+package com.zyl.myview.zrecycleview.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.zyl.recycle.demo.R;
-import com.zyl.recycle.demo.ui.adapter.BaseRecycleAdapter;
-import com.zyl.recycle.demo.util.DensityUtil;
-import com.zyl.recycle.demo.util.ZItemDecoration;
+import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
 
 
 /**
@@ -43,10 +36,11 @@ public class ZRecycleView extends LinearLayout {
     private void init() {
         setOrientation(VERTICAL);
         swipeRefreshLayout=new SwipeRefreshLayout(mcontext);
-        LinearLayout.LayoutParams params=new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams params=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
          //swipeRefreshLayout.setPadding(20,0,20,0);
         swipeRefreshLayout.setLayoutParams(params);
         recyclerView=new RecyclerView(mcontext);
+        recyclerView.setNestedScrollingEnabled(false);
 
 
         recyclerView.setLayoutParams(new LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
@@ -177,8 +171,15 @@ public class ZRecycleView extends LinearLayout {
       void refresh();
   }
 
-
+    /**
+     * set divider line
+     * @param itemDecoration
+     */
   public void setZItemDecoration(RecyclerView.ItemDecoration itemDecoration){
       recyclerView.addItemDecoration(itemDecoration);
   }
+
+    public void setZItemAnimator(RecyclerView.ItemAnimator itemAnimator){
+      recyclerView.setItemAnimator(itemAnimator);
+    }
 }

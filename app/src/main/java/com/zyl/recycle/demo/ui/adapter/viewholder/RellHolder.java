@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zyl.myview.zrecycleview.base.BaseViewHolder;
 import com.zyl.recycle.demo.R;
 import com.zyl.recycle.demo.model.AgTechnologInfor;
 
@@ -12,7 +13,7 @@ import com.zyl.recycle.demo.model.AgTechnologInfor;
  * Created by Administrator on 2018/1/10.
  */
 
-public class RellHolder extends BaseViewHolder<AgTechnologInfor>{
+public class RellHolder extends BaseViewHolder<AgTechnologInfor> {
     private TextView agTechtitletv;
     private TextView datetv;
     private Context mcontext;
