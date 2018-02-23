@@ -1,6 +1,7 @@
 package com.zyl.myview.zrecycleview.base;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
     public BaseViewHolder(View itemView) {
         super(itemView);
         this.mitenView=itemView;
+        Log.i("sss",mitenView.getMeasuredHeight()+"--------------------");
 
         init();
 

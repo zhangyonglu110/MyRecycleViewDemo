@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zyl.recycle.demo.R;
 import com.zyl.recycle.demo.ui.adapter.viewholder.NormalHolder;
 
 import java.util.List;
@@ -31,26 +33,27 @@ public class NormalAdapter extends RecyclerView.Adapter<NormalHolder>{
     }
     @Override
     public NormalHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView textView=new TextView(mcontext);
-        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-        textView.setTextColor(Color.BLACK);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(15);
+//        TextView textView=new TextView(mcontext);
+//        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+//        textView.setTextColor(Color.BLACK);
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTextSize(15);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_complex_list,parent,false);
 
-        return new NormalHolder(textView);
+        return new NormalHolder(view);
     }
 
 
 
     @Override
     public void onBindViewHolder(NormalHolder holder, final int position) {
-        holder.setdata(dataList.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mcontext,position+"",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.setdata(dataList.get(position));
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(mcontext,position+"",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

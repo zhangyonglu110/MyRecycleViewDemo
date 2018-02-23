@@ -12,11 +12,11 @@ public class NormalHolder extends RecyclerView.ViewHolder {
     private TextView textView;
     public NormalHolder(View itemView) {
         super(itemView);
-        textView= (TextView) itemView;
+       // textView= (TextView) itemView;
     }
 
     public void setdata(String s){
-        textView.setText(s);
+       // textView.setText(s);
 
     }
 

@@ -3,7 +3,6 @@ package com.zyl.recycle.demo.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -23,10 +22,10 @@ public class NormalActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycle);
+        setContentView(R.layout.layout_recycleview);
         initdata();
         recyclerView=findViewById(R.id.recycle_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new NormalAdapter(this,datalist));
 
     }

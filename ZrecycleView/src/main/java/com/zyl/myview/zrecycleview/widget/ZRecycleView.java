@@ -36,9 +36,9 @@ public class ZRecycleView extends LinearLayout {
 
     private void init() {
         setOrientation(VERTICAL);
-        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+       // setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         swipeRefreshLayout=new SwipeRefreshLayout(mcontext);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
          //swipeRefreshLayout.setPadding(20,0,20,0);
         swipeRefreshLayout.setLayoutParams(params);
         recyclerView=new RecyclerView(mcontext);
@@ -52,6 +52,7 @@ public class ZRecycleView extends LinearLayout {
     }
 
     private void initevent() {
+
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

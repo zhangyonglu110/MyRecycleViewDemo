@@ -3,16 +3,13 @@ package com.zyl.recycle.demo.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.zyl.recycle.demo.R;
 import com.zyl.recycle.demo.ui.adapter.HeaderFooterAdapter;
-import com.zyl.recycle.demo.ui.adapter.NormalAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ public class HeaderFooterActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycle);
+        setContentView(R.layout.layout_recycleview);
         initdata();
         headerview= LayoutInflater.from(this).inflate(R.layout.layout_recycle_header,recyclerView);
         footerview= LayoutInflater.from(this).inflate(R.layout.layout_recycle_footer,recyclerView);

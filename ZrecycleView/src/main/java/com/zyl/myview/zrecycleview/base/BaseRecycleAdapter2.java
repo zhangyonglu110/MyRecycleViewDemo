@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-
 
 import java.util.List;
 
@@ -15,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2017/12/22.
  */
 
-public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public abstract class BaseRecycleAdapter2<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     protected List<T> dataList;
     protected Context mcontext;
     protected View headerview,footerview;
@@ -29,22 +27,22 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
     protected int mlayoutid;
     protected View mItemView;
 
-    public BaseRecycleAdapter(Context context){
+    public BaseRecycleAdapter2(Context context){
         this.mcontext=context;
 
     }
-    public BaseRecycleAdapter(Context context, List<T> list){
+    public BaseRecycleAdapter2(Context context, List<T> list){
         this.mcontext=context;
         this.dataList=list;
 
     }
-    public BaseRecycleAdapter(Context context, List<T> list, int layoutid){
+    public BaseRecycleAdapter2(Context context, List<T> list, int layoutid){
         this.mcontext=context;
         this.dataList=list;
         this.mlayoutid=layoutid;
 
     }
-    public BaseRecycleAdapter(Context context, List<T> list, View itemview){
+    public BaseRecycleAdapter2(Context context, List<T> list, View itemview){
         this.mcontext=context;
         this.dataList=list;
         this.mItemView=itemview;
@@ -58,9 +56,9 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
                  * recycleview 加载每个item都需要 new出一个新view   所以遇到加载不全的问题就在这里
                  */
                 if(mlayoutid!=0){
-                    //  View mItemView= LayoutInflater.from(mcontext).inflate(mlayoutid,null);  //横向宽度不够  显示不全
-                    View mItemView= LayoutInflater.from(mcontext).inflate(mlayoutid,parent,false);
-                    return getViewHolder(mItemView);
+                //  View mItemView= LayoutInflater.from(mcontext).inflate(mlayoutid,null);  //横向宽度不够  显示不全
+                  View mItemView= LayoutInflater.from(mcontext).inflate(mlayoutid,parent,false);
+                  return getViewHolder(mItemView);
 
                 }
             case ITEM_HEADER:
@@ -265,7 +263,7 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
 
     }
 
-    public abstract BaseViewHolder<T> getViewHolder(View itemview);
+    public abstract RecyclerView.ViewHolder getViewHolder(View itemview);
 
 
     public void isShowFooter(boolean isshowfooter){
