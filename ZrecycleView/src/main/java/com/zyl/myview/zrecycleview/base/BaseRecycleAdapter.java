@@ -59,17 +59,21 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
 //                textView.setGravity(Gravity.CENTER);
 //                textView.setTextSize(15);
                 if(mitenview!=null) {
+                    mitenview.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,RecyclerView.LayoutParams.WRAP_CONTENT));
                     return getViewHolder(mitenview);
                 }
                 if(mlayoutid!=0){
-                    return getViewHolder(LayoutInflater.from(mcontext).inflate(mlayoutid,null));
+                   mitenview= LayoutInflater.from(mcontext).inflate(mlayoutid,null);
+                   mitenview.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,RecyclerView.LayoutParams.WRAP_CONTENT));
+                    return getViewHolder(mitenview);
 
                 }
             case ITEM_HEADER:
                 return new HeaderHolder(headerview);
             case ITEM_FOOTER:
-
-                return new FooterHolder(footerview);
+                if(misshowfooter) {
+                    return new FooterHolder(footerview);
+                }
 
         }
 
@@ -81,12 +85,12 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Log.i("sss",getItemCount()+""+"position------------>"+position);
+       // Log.i("sss",getItemCount()+""+"position------------>"+position);
         if(holder instanceof BaseViewHolder){
-            BaseViewHolder<T> normalHolder= (BaseViewHolder<T>) holder;
+            final BaseViewHolder<T> normalHolder= (BaseViewHolder<T>) holder;
             if(headerview!=null&&footerview!=null){
                 if(position!=0&&position!=getItemCount()-1) {
-                    Log.i("sss","pos------------->"+position);
+                   // Log.i("sss","pos------------->"+position);
                     normalHolder.setdata(dataList.get(position - 1));
                 }
             }
@@ -106,6 +110,7 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
             normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                  // if(normalHolder!=null) normalHolder.OnZItemClick(position);
                    if(monZRecycleViewItemClickListener!=null) monZRecycleViewItemClickListener.onItemClick(position);
                 }
             });
@@ -213,7 +218,13 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
 
     public void clear(){
         this.dataList.clear();
-        notifyDataSetChanged();
+       // misshowfooter=false;
+     // notifyDataSetChanged();
+    }
+    public void clearnotify(){
+        this.dataList.clear();
+        // misshowfooter=false;
+       notifyDataSetChanged();
     }
 
     public void addAll(List<T> list){
@@ -264,7 +275,13 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
 
     public void isShowFooter(boolean isshowfooter){
         this.misshowfooter=isshowfooter;
-        notifyDataSetChanged();
+        if(misshowfooter) {
+            footerview.setVisibility(View.VISIBLE);
+        }else{
+            footerview.setVisibility(View.GONE);
+
+        }
+       notifyDataSetChanged();
 
     }
 }

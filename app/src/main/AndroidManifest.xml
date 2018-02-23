@@ -24,6 +24,7 @@
         <activity android:name=".ui.activity.MyRecycleViewActivity"/>
         <activity android:name=".ui.activity.GridLayoutActivity"/>
         <activity android:name=".ui.activity.RellyListActivity"/>
+        <activity android:name=".ui.activity.ComplexLayoutActivity"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

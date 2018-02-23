@@ -10,16 +10,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
+import com.zyl.myview.zrecycleview.base.BaseViewHolder;
 import com.zyl.myview.zrecycleview.util.DensityUtil;
 import com.zyl.myview.zrecycleview.util.ZItemDecoration;
 import com.zyl.myview.zrecycleview.widget.ZRecycleView;
 import com.zyl.recycle.demo.R;
 import com.zyl.recycle.demo.model.AgTechnologInfor;
 import com.zyl.recycle.demo.ui.adapter.ReallAdapter;
+import com.zyl.recycle.demo.ui.adapter.viewholder.RellHolder;
 import com.zyl.recycle.demo.util.OkHttpUtils;
 
 import org.json.JSONException;
@@ -41,7 +46,7 @@ import okhttp3.Response;
 public class RellyListActivity extends Activity implements ZRecycleView.OnZfreshListener, Callback {
     private int page = 0;
     private List<AgTechnologInfor> agTechnologInforList = new ArrayList<>();
-    private ReallAdapter reallAdapter;
+    private BaseRecycleAdapter<AgTechnologInfor> reallAdapter;
     ZRecycleView zRecycleView;
     private GridLayoutManager gridLayoutManager;
 
@@ -50,7 +55,7 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
         super.onCreate(savedInstanceState);
         zRecycleView = new ZRecycleView(this);
         setContentView(zRecycleView);
-        zRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        zRecycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
         zRecycleView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 //        zRecycleView.setLayoutManager(gridLayoutManager=new GridLayoutManager(this,5));
         ZItemDecoration zItemDecoration=new ZItemDecoration(this,LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this,1),getResources().getColor(R.color.colorAccent));
@@ -68,7 +73,14 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
 
         zRecycleView.setSchemeColors(R.color.colorAccent);
         zRecycleView.setRefreshListener(this);
-        reallAdapter = new ReallAdapter(this, agTechnologInforList, R.layout.layout_ag_technology_list);
+      //  reallAdapter = new ReallAdapter(this, agTechnologInforList, R.layout.layout_ag_technology_list);
+
+        reallAdapter=new BaseRecycleAdapter<AgTechnologInfor>(this,agTechnologInforList, R.layout.layout_ag_technology_list) {
+            @Override
+            public BaseViewHolder<AgTechnologInfor> getViewHolder(View itemview) {
+                return new RellHolder(itemview);
+            }
+        };
         reallAdapter.addFooter(LayoutInflater.from(RellyListActivity.this).inflate(R.layout.layout_recycle_footer, null));
         zRecycleView.setAdapter(reallAdapter);
         //reallAdapter.isShowFooter(true);
@@ -79,6 +91,7 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
                 zRecycleView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.i("really","start    load more");
                         page++;
                         if(page<=9) {
                             getdata();
@@ -90,6 +103,8 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
 
             }
         });
+        Log.i("really","start    get  data");
+
         getdata();
 
 
@@ -115,12 +130,12 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
 
     @Override
     public void refresh() {
-        reallAdapter.isShowFooter(false);
+      //  reallAdapter.isShowFooter(false);
         page = 0;
         reallAdapter.clear();
         //reallAdapter.isShowFooter(true);
 
-        getdata();
+      getdata();
 
     }
 
@@ -137,7 +152,6 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Log.i("ppp", "page----------->" + page);
             String string = (String) msg.obj;
             if (!TextUtils.isEmpty(string)) {
                 try {
@@ -148,8 +162,8 @@ public class RellyListActivity extends Activity implements ZRecycleView.OnZfresh
                     if (list.size() > 0) {
                         reallAdapter.addAll(list);
                         if (page == 0) {
-                            Log.i("ppp","refresh after----------setfooter  true");
-                            reallAdapter.isShowFooter(true);
+                            Log.i("really","get data over");
+                            //reallAdapter.isShowFooter(true);
                         }
 
 

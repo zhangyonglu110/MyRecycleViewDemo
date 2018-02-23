@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
@@ -35,15 +36,16 @@ public class ZRecycleView extends LinearLayout {
 
     private void init() {
         setOrientation(VERTICAL);
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         swipeRefreshLayout=new SwipeRefreshLayout(mcontext);
-        LayoutParams params=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
          //swipeRefreshLayout.setPadding(20,0,20,0);
         swipeRefreshLayout.setLayoutParams(params);
         recyclerView=new RecyclerView(mcontext);
         recyclerView.setNestedScrollingEnabled(false);
 
 
-        recyclerView.setLayoutParams(new LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
+        recyclerView.setLayoutParams(new SwipeRefreshLayout.LayoutParams(SwipeRefreshLayout.LayoutParams.MATCH_PARENT, SwipeRefreshLayout.LayoutParams.WRAP_CONTENT));
         swipeRefreshLayout.addView(recyclerView);
         addView(swipeRefreshLayout);
         initevent();
@@ -72,7 +74,11 @@ public class ZRecycleView extends LinearLayout {
                          @Override
                          public void run() {
                              isloading=true;
-                             if(mloadMoreListener!=null) mloadMoreListener.loadMore();
+                             if(baseRecycleAdapter!=null)
+                             if(mloadMoreListener!=null){
+                                 baseRecycleAdapter.isShowFooter(true);
+                                 mloadMoreListener.loadMore();
+                             }
                              isloading=false;
 
                          }
@@ -88,6 +94,7 @@ public class ZRecycleView extends LinearLayout {
          public void onRefresh() {
              if(monZfreshListener!=null&&!isloading) {
                  isfresh=true;
+              //   if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(true);
                  monZfreshListener.refresh();
              }
              isfresh=false;

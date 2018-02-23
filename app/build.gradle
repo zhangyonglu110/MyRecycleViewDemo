@@ -24,7 +24,8 @@ dependencies {
     compile 'com.squareup.okio:okio:1.5.0'
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.google.code.gson:gson:2.3.1'
-    compile project(":ZrecycleView")
+//    compile 'com.github.zhangyonglu110:MyRecycleViewDemo:v1.0.0'
+    compile project(':ZrecycleView')
 
 
 }

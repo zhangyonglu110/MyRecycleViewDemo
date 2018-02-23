@@ -23,6 +23,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
     public BaseViewHolder(View itemView) {
         super(itemView);
         this.mitenView=itemView;
+
         init();
 
 
@@ -32,6 +33,9 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
     public    void setdata(T s){
 
     }
-    protected  void init(){};
+//    public void OnZItemClick(int position){
+//
+//    }
+    protected  void init(){}
 
 }

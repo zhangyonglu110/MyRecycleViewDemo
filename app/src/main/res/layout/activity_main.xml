@@ -76,4 +76,14 @@
       android:text="example demo"
       android:layout_width="match_parent"
       android:layout_height="35dp" />
+
+
+  <TextView
+      android:id="@+id/item_complex_layout"
+
+      android:gravity="center|left"
+      android:textColor="@android:color/black"
+      android:text="complex_layout demo"
+      android:layout_width="match_parent"
+      android:layout_height="35dp" />
 </LinearLayout>

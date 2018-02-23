@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.zyl.recycle.demo.ui.activity.ComplexLayoutActivity;
 import com.zyl.recycle.demo.ui.activity.GridLayoutActivity;
 import com.zyl.recycle.demo.ui.activity.HeaderFooterActivity;
 import com.zyl.recycle.demo.ui.activity.MyRecycleViewActivity;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.item_my_recycleview).setOnClickListener(this);
         findViewById(R.id.item_grid_layout).setOnClickListener(this);
         findViewById(R.id.item_example).setOnClickListener(this);
+        findViewById(R.id.item_complex_layout).setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.item_example:
                 startActivity(new Intent(this, RellyListActivity.class));
+
+                break;
+            case R.id.item_complex_layout:
+                startActivity(new Intent(this, ComplexLayoutActivity.class));
 
                 break;
         }
