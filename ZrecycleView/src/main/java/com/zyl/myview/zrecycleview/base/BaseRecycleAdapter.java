@@ -26,6 +26,7 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
     protected boolean canloadMore=true,misshowfooter=false;
     protected View cachFooterView;
     protected OnZRecycleViewItemClickListener monZRecycleViewItemClickListener;
+    protected OnZRecycleViewItemLongClickListener monZRecycleViewItemLongClickListener;
     protected int mlayoutid;
     protected View mItemView;
 
@@ -107,6 +108,15 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
                 public void onClick(View v) {
                   // if(normalHolder!=null) normalHolder.OnZItemClick(position);
                    if(monZRecycleViewItemClickListener!=null) monZRecycleViewItemClickListener.onItemClick(position);
+                }
+            });
+
+            normalHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+                    if(monZRecycleViewItemLongClickListener!=null)monZRecycleViewItemLongClickListener.onItemLongClick(position);
+                    return true;
                 }
             });
 
@@ -260,8 +270,17 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
        void onItemClick(int position);
     }
 
+    public interface OnZRecycleViewItemLongClickListener{
+        void onItemLongClick(int position);
+    }
+
     public void setOnItemClickListener(OnZRecycleViewItemClickListener onItemClickListener){
         this.monZRecycleViewItemClickListener=onItemClickListener;
+
+    }
+
+    public void setOnItemLongClickListener(OnZRecycleViewItemLongClickListener onItemClickListener){
+        this.monZRecycleViewItemLongClickListener=onItemClickListener;
 
     }
 

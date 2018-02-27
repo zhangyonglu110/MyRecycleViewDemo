@@ -53,6 +53,13 @@ public class ComplexLayoutActivity extends Activity {
                 Toast.makeText(ComplexLayoutActivity.this,position+"",Toast.LENGTH_SHORT).show();
             }
         });
+
+        adapter.setOnItemLongClickListener(new BaseRecycleAdapter.OnZRecycleViewItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                Toast.makeText(ComplexLayoutActivity.this,position+"----",Toast.LENGTH_SHORT).show();
+            }
+        });
         zRecycleView.setAdapter(adapter);
 
     }
