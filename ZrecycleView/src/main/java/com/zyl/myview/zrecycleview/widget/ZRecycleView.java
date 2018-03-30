@@ -190,4 +190,8 @@ public class ZRecycleView extends LinearLayout {
     public void setZItemAnimator(RecyclerView.ItemAnimator itemAnimator){
       recyclerView.setItemAnimator(itemAnimator);
     }
+
+    public RecyclerView getRecyclerView(){
+        return recyclerView;
+    }
 }
