@@ -92,6 +92,8 @@ public class ZRecycleView extends LinearLayout {
         });
 
         if(monZfreshListener!=null) {
+            swipeRefreshLayout.setEnabled(true);
+
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -104,6 +106,8 @@ public class ZRecycleView extends LinearLayout {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
+        }else{
+            swipeRefreshLayout.setEnabled(false);
         }
     }
 
