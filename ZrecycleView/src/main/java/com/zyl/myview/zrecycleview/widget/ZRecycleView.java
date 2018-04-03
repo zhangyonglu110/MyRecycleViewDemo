@@ -90,18 +90,21 @@ public class ZRecycleView extends LinearLayout {
 
             }
         });
-     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-         @Override
-         public void onRefresh() {
-             if(monZfreshListener!=null&&!isloading) {
-                 isfresh=true;
-              //   if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(true);
-                 monZfreshListener.refresh();
-             }
-             isfresh=false;
-             swipeRefreshLayout.setRefreshing(false);
-         }
-     });
+
+        if(monZfreshListener!=null) {
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (!isloading) {
+                        isfresh = true;
+                        //   if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(true);
+                        monZfreshListener.refresh();
+                    }
+                    isfresh = false;
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 
     public ZRecycleView(Context context, @Nullable AttributeSet attrs) {
