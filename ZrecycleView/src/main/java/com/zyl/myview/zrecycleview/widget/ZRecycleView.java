@@ -91,8 +91,7 @@ public class ZRecycleView extends LinearLayout {
             }
         });
 
-        if(monZfreshListener!=null) {
-            swipeRefreshLayout.setEnabled(true);
+
 
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -106,9 +105,7 @@ public class ZRecycleView extends LinearLayout {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
-        }else{
-            swipeRefreshLayout.setEnabled(false);
-        }
+
     }
 
     public ZRecycleView(Context context, @Nullable AttributeSet attrs) {
@@ -199,6 +196,27 @@ public class ZRecycleView extends LinearLayout {
     }
 
     public RecyclerView getRecyclerView(){
+        if(recyclerView==null){
+            try {
+                throw new Exception("recyclerView is null");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return recyclerView;
+    }
+
+
+    public SwipeRefreshLayout getSwipeRefreshLayout(){
+        if(swipeRefreshLayout==null){
+            try {
+                throw new Exception("swipeRefreshLayout is null");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return swipeRefreshLayout;
     }
 }
