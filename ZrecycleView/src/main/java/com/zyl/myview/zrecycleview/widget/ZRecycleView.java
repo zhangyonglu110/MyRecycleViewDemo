@@ -19,13 +19,13 @@ import com.zyl.myview.zrecycleview.base.BaseRecycleAdapter;
 
 public class ZRecycleView extends LinearLayout {
     private Context mcontext;
-   private SwipeRefreshLayout swipeRefreshLayout;
-   private RecyclerView recyclerView;
-   private RecyclerView.LayoutManager layoutManager;
-   private boolean isloading=false,canload=true,isfresh=false;
-   private LoadMoreListener mloadMoreListener;
-   private BaseRecycleAdapter baseRecycleAdapter;
-   private OnZfreshListener monZfreshListener;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private boolean isloading=false,canload=true,isfresh=false;
+    private LoadMoreListener mloadMoreListener;
+    private BaseRecycleAdapter baseRecycleAdapter;
+    private OnZfreshListener monZfreshListener;
 
 
     public ZRecycleView(Context context) {
@@ -36,10 +36,11 @@ public class ZRecycleView extends LinearLayout {
 
     private void init() {
         setOrientation(VERTICAL);
-       // setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        // setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         swipeRefreshLayout=new SwipeRefreshLayout(mcontext);
+        swipeRefreshLayout.setEnabled(false);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-         //swipeRefreshLayout.setPadding(20,0,20,0);
+        //swipeRefreshLayout.setPadding(20,0,20,0);
         swipeRefreshLayout.setLayoutParams(params);
         recyclerView=new RecyclerView(mcontext);
         recyclerView.setNestedScrollingEnabled(false);
@@ -64,26 +65,26 @@ public class ZRecycleView extends LinearLayout {
                 int itemcount=layoutManager.getChildCount();
                 int lastposition=0;
                 if(layoutManager instanceof LinearLayoutManager) {
-                     lastposition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                    lastposition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 }else if(layoutManager instanceof GridLayoutManager){
                     lastposition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
 
                 }
 
                 if(itemcount<=(lastposition+1)&&!isloading&&canload&&!isfresh){
-                     new android.os.Handler().post(new Runnable() {
-                         @Override
-                         public void run() {
-                             isloading=true;
-                             if(baseRecycleAdapter!=null)
-                             if(mloadMoreListener!=null){
-                                 baseRecycleAdapter.isShowFooter(true);
-                                 mloadMoreListener.loadMore();
-                             }
-                             isloading=false;
+                    new android.os.Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            isloading=true;
+                            if(baseRecycleAdapter!=null)
+                                if(mloadMoreListener!=null){
+                                    baseRecycleAdapter.isShowFooter(true);
+                                    mloadMoreListener.loadMore();
+                                }
+                            isloading=false;
 
-                         }
-                     });
+                        }
+                    });
 
                 }
                 super.onScrolled(recyclerView, dx, dy);
@@ -92,19 +93,9 @@ public class ZRecycleView extends LinearLayout {
         });
 
 
+        if(monZfreshListener!=null) {
 
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    if (!isloading) {
-                        isfresh = true;
-                        //   if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(true);
-                        monZfreshListener.refresh();
-                    }
-                    isfresh = false;
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            });
+        }
 
     }
 
@@ -143,13 +134,14 @@ public class ZRecycleView extends LinearLayout {
         this.mloadMoreListener=loadMoreListener;
 
     }
-   public interface  LoadMoreListener{
+    public interface  LoadMoreListener{
         void loadMore();
     }
 
 
     public void setRefreshListener(SwipeRefreshLayout.OnRefreshListener onRefreshListener){
-      swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+
     }
 
     public void stopRefresh(){
@@ -159,40 +151,53 @@ public class ZRecycleView extends LinearLayout {
         swipeRefreshLayout.setRefreshing(true);
     }
 
-  public void setcanrefresh(boolean canrefresh){
+    public void setcanrefresh(boolean canrefresh){
         this.canload=canrefresh;
 
-  }
+    }
 
-  public void stopLoadMore(){
-      if(baseRecycleAdapter!=null&&baseRecycleAdapter.getFooterview()!=null) baseRecycleAdapter.isShowFooter(true);
-      canload=false;
-  }
+    public void stopLoadMore(){
+        if(baseRecycleAdapter!=null&&baseRecycleAdapter.getFooterview()!=null) baseRecycleAdapter.isShowFooter(true);
+        canload=false;
+    }
 
-  public void startLoadMore(){
-      if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(false);
-      canload=true;
+    public void startLoadMore(){
+        if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(false);
+        canload=true;
 
-  }
-  public void setRefreshListener(OnZfreshListener onZfreshListener){
-      this.monZfreshListener=onZfreshListener;
+    }
+    public void setRefreshListener(OnZfreshListener onZfreshListener){
+        this.monZfreshListener=onZfreshListener;
+        swipeRefreshLayout.setEnabled(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!isloading) {
+                    isfresh = true;
+                    //   if(baseRecycleAdapter!=null) baseRecycleAdapter.isShowFooter(true);
+                    monZfreshListener.refresh();
+                }
+                isfresh = false;
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
-  }
+    }
 
- public interface OnZfreshListener{
-      void refresh();
-  }
+    public interface OnZfreshListener{
+        void refresh();
+    }
 
     /**
      * set divider line
      * @param itemDecoration
      */
-  public void setZItemDecoration(RecyclerView.ItemDecoration itemDecoration){
-      recyclerView.addItemDecoration(itemDecoration);
-  }
+    public void setZItemDecoration(RecyclerView.ItemDecoration itemDecoration){
+        recyclerView.addItemDecoration(itemDecoration);
+    }
 
     public void setZItemAnimator(RecyclerView.ItemAnimator itemAnimator){
-      recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(itemAnimator);
     }
 
     public RecyclerView getRecyclerView(){
