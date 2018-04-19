@@ -183,6 +183,13 @@ public abstract class BaseRecycleAdapter<T> extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
 
     }
+
+    public void addHeader(View view,ViewGroup.LayoutParams layoutparams){
+        view.setLayoutParams(layoutparams);
+        this.headerview=view;
+        notifyDataSetChanged();
+
+    }
     public void addFooter(View view){
         view.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
